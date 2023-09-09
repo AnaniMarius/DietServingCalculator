@@ -31,6 +31,7 @@ public class ValoareEnergeticaActivity extends AppCompatActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     startActivity(intent);
+                    finish();
                 }
                 return false;
             }

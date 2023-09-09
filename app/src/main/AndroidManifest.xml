@@ -13,6 +13,21 @@
         android:theme="@style/Theme.ServingCalculator"
         tools:targetApi="31">
         <activity
+            android:name=".ui.ButtonActivities.AddFood.SareActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.ButtonActivities.AddFood.ProteineActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.ButtonActivities.AddFood.FibreActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.ButtonActivities.AddFood.ZaharuriActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.ButtonActivities.AddFood.GlucideActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.ButtonActivities.AddFood.AciziGrasiSaturatiActivity"
             android:exported="false" />
         <activity

@@ -13,17 +13,17 @@ import android.widget.TextView;
 
 import com.example.servingcalculator.R;
 
-public class AciziGrasiSaturatiActivity extends AppCompatActivity {
+public class ZaharuriActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_acizi_grasi_saturati);
-        EditText editText = findViewById(R.id.aciziET);
+        setContentView(R.layout.activity_zaharuri);
+        EditText editText = findViewById(R.id.zaharuriET);
         InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
         editText.requestFocus();
-        Intent intent = new Intent(getApplicationContext(), GlucideActivity.class);
+        Intent intent = new Intent(getApplicationContext(), FibreActivity.class);
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
