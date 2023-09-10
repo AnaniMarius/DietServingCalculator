@@ -10,6 +10,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.servingcalculator.Food;
 import com.example.servingcalculator.R;
 
 public class SareActivity extends AppCompatActivity {
@@ -28,7 +29,10 @@ public class SareActivity extends AppCompatActivity {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    Food foodObject=  getIntent().getParcelableExtra("food");
+                    foodObject.setValoareEnergetica(Double.parseDouble(editText.getText().toString()));
                     //add ingredient logic
+
                     finish();
                 }
                 return false;

@@ -5,12 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.servingcalculator.Food;
 import com.example.servingcalculator.R;
 
 public class ProteineActivity extends AppCompatActivity {
@@ -28,6 +30,9 @@ public class ProteineActivity extends AppCompatActivity {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    Food foodObject=  getIntent().getParcelableExtra("food");
+                    foodObject.setProteine(Double.parseDouble(editText.getText().toString()));
+                    intent.putExtra("food", (Parcelable) foodObject);
                     startActivity(intent);
                     finish();
                 }

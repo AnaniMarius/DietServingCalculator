@@ -15,23 +15,24 @@ import android.widget.TextView;
 import com.example.servingcalculator.Food;
 import com.example.servingcalculator.R;
 
-public class GlucideActivity extends AppCompatActivity {
+import java.io.Serializable;
 
+public class NumeActivity extends AppCompatActivity implements Serializable {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_glucide);
-        EditText editText = findViewById(R.id.glucideET);
+        setContentView(R.layout.activity_nume);
+        EditText editText = findViewById(R.id.numeET);
         InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
         editText.requestFocus();
-        Intent intent = new Intent(getApplicationContext(), ZaharuriActivity.class);
+        Intent intent = new Intent(getApplicationContext(), ValoareEnergeticaActivity.class);
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    Food foodObject=  getIntent().getParcelableExtra("food");
-                    foodObject.setGlucide(Double.parseDouble(editText.getText().toString()));
+                    Food foodObject= getIntent().getParcelableExtra("food");
+                    foodObject.setNume(editText.getText().toString());
                     intent.putExtra("food", (Parcelable) foodObject);
                     startActivity(intent);
                     finish();

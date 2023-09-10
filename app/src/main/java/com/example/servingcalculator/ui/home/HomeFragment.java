@@ -2,6 +2,7 @@ package com.example.servingcalculator.ui.home;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.servingcalculator.Food;
 import com.example.servingcalculator.R;
 import com.example.servingcalculator.databinding.FragmentHomeBinding;
+import com.example.servingcalculator.ui.ButtonActivities.AddFood.NumeActivity;
 import com.example.servingcalculator.ui.ButtonActivities.AddFood.ValoareEnergeticaActivity;
 
 public class HomeFragment extends Fragment {
@@ -43,7 +46,9 @@ public class HomeFragment extends Fragment {
         addFood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addFoodActivity=new Intent(getActivity(), ValoareEnergeticaActivity.class);
+                addFoodActivity=new Intent(getActivity(), NumeActivity.class);
+                Food foodObject=new Food();
+                addFoodActivity.putExtra("food", (Parcelable) foodObject);
                 startActivity(addFoodActivity);
 //                createPopupWindow();
             }
