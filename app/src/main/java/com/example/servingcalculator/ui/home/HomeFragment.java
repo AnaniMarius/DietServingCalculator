@@ -1,5 +1,6 @@
 package com.example.servingcalculator.ui.home;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -21,6 +22,7 @@ import com.example.servingcalculator.R;
 import com.example.servingcalculator.databinding.FragmentHomeBinding;
 import com.example.servingcalculator.ui.ButtonActivities.AddFood.NumeActivity;
 import com.example.servingcalculator.ui.ButtonActivities.AddFood.ValoareEnergeticaActivity;
+import com.example.servingcalculator.ui.ButtonActivities.SelectFromSavedFoods.SelectFromSavedFoodsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +38,7 @@ public class HomeFragment extends Fragment {
     private Button checkList;
     Intent addFoodActivity;
     Intent addThresholdActivity;
+    Intent checkListActivity;
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         AppDatabase db = Room.databaseBuilder(getContext(),
                 AppDatabase.class, "Food-database").build();
@@ -79,23 +82,26 @@ public class HomeFragment extends Fragment {
             }
         });
         resetDatabase.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
-                new Thread(() -> {
-                    db.getData().deleteAll();
-                }).start();
+                new AlertDialog.Builder(getContext())
+                        .setTitle("Confirmation")
+                        .setMessage("Are you sure you want to reset the database?")
+                        .setPositiveButton("Yes", (dialog, which) -> {
+                            new Thread(() -> {
+                                db.getData().deleteAll();
+                            }).start();
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
             }
         });
         checkList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AtomicReference<List<Food>> FoodsList = new AtomicReference<>();
-                new Thread(() -> {
-                    FoodsList.set(db.getData().getAll());
-                    for (Food Food : FoodsList.get()) {
-                        Log.d("DATABASE_CONTENT", Food.toString());
-                    }
-                }).start();
+                checkListActivity=new Intent(getActivity(), SelectFromSavedFoodsActivity.class);
+                startActivity(checkListActivity);
             }
         });
 

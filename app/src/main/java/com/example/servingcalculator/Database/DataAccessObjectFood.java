@@ -23,8 +23,12 @@ public interface DataAccessObjectFood {
     public void updateFoods(Food... Foods);
     @Delete
     public void deleteFoods(Food... Foods);
+    @Query("SELECT * FROM Food WHERE nume == :Nume")
+    List<Food> getFoodInfo(String Nume);
     @Delete
     void delete(Food Food);
+    @Query("DELETE FROM Food WHERE nume == :Nume")
+    void deleteFood(String Nume);
     @Query("DELETE FROM Food")
     void deleteAll();
 }

@@ -21,16 +21,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Per 100g"
-            android:textColor="@color/black"
-            android:layout_marginStart="140dp"
-            android:textSize="30dp"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:text="Name:"
+            android:text="Namele produsului:"
             android:textColor="@color/black"
             android:layout_marginStart="70dp"
             android:textSize="30dp"
