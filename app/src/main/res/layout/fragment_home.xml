@@ -48,10 +48,10 @@
         android:id="@+id/addThresholdBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="140dp"
         android:layout_marginBottom="300dp"
         android:text="Add Threshold"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addSnackBtn" />
 
@@ -59,10 +59,10 @@
         android:id="@+id/resetDbBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="140dp"
         android:layout_marginBottom="190dp"
         android:text="Reset Database"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addThresholdBtn" />
 
@@ -70,10 +70,10 @@
         android:id="@+id/checkListBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="140dp"
         android:layout_marginBottom="10dp"
-        android:text="Check List"
+        android:text="Select from saved Foods"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addThresholdBtn" />
 </androidx.constraintlayout.widget.ConstraintLayout>

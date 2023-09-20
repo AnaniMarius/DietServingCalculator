@@ -30,9 +30,9 @@ public class GrasimiActivity extends AppCompatActivity {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    Food foodObject=  getIntent().getParcelableExtra("food");
-                    foodObject.setGrasimi(Double.parseDouble(editText.getText().toString()));
-                    intent.putExtra("food", (Parcelable) foodObject);
+                    Food FoodObject=  getIntent().getParcelableExtra("Food");
+                    FoodObject.setGrasimi(Double.parseDouble(editText.getText().toString()));
+                    intent.putExtra("Food", (Parcelable) FoodObject);
                     startActivity(intent);
                     finish();
                 }

@@ -30,9 +30,9 @@ public class ZaharuriActivity extends AppCompatActivity {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    Food foodObject=  getIntent().getParcelableExtra("food");
-                    foodObject.setZaharuri(Double.parseDouble(editText.getText().toString()));
-                    intent.putExtra("food", (Parcelable) foodObject);
+                    Food FoodObject=  getIntent().getParcelableExtra("Food");
+                    FoodObject.setZaharuri(Double.parseDouble(editText.getText().toString()));
+                    intent.putExtra("Food", (Parcelable) FoodObject);
                     startActivity(intent);
                     finish();
                 }

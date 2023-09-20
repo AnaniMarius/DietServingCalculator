@@ -6,12 +6,11 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.Fts4;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 @Entity(indices = {@Index(value="nume",unique = true)})
-public class Food implements Parcelable{
+public class AteFood implements Parcelable {
     @PrimaryKey
     @NonNull
     @ColumnInfo(name = "nume")
@@ -33,7 +32,7 @@ public class Food implements Parcelable{
     @ColumnInfo(name = "sare")
     private double sare;
 
-    protected Food(Parcel in) {
+    protected AteFood(Parcel in) {
         nume = in.readString();
         valoareEnergetica = in.readDouble();
         grasimi = in.readDouble();
@@ -61,20 +60,20 @@ public class Food implements Parcelable{
         return 0;
     }
 
-    public static final Creator<Food> CREATOR = new Creator<Food>() {
+    public static final Parcelable.Creator<AteFood> CREATOR = new Parcelable.Creator<AteFood>() {
         @Override
-        public Food createFromParcel(Parcel in) {
-            return new Food(in);
+        public AteFood createFromParcel(Parcel in) {
+            return new AteFood(in);
         }
 
         @Override
-        public Food[] newArray(int size) {
-            return new Food[size];
+        public AteFood[] newArray(int size) {
+            return new AteFood[size];
         }
     };
     @Override
     protected Object clone() {
-        Food clonedFood = new Food();
+        AteFood clonedFood = new AteFood();
         clonedFood.nume = this.nume;
         clonedFood.valoareEnergetica = this.valoareEnergetica;
         clonedFood.grasimi = this.grasimi;
@@ -87,10 +86,10 @@ public class Food implements Parcelable{
 
         return clonedFood;
     }
-    public Food() {
+    public AteFood() {
     }
 
-    public Food(String nume, double valoareEnergetica, double grasimi, double acizi, double glucide, double zaharuri, double fibre, double proteine, double sare) {
+    public AteFood(String nume, double valoareEnergetica, double grasimi, double acizi, double glucide, double zaharuri, double fibre, double proteine, double sare) {
         this.nume = nume;
         this.valoareEnergetica = valoareEnergetica;
         this.grasimi = grasimi;
@@ -175,7 +174,7 @@ public class Food implements Parcelable{
 
     @Override
     public String toString() {
-        return "Food{" +
+        return "AteFood{" +
                 "nume=" + nume +
                 ", valoareEnergetica=" + valoareEnergetica +
                 ", grasimi=" + grasimi +

@@ -28,13 +28,13 @@ public class ValoareEnergeticaActivity extends AppCompatActivity {
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
         editText.requestFocus();
         Intent intent = new Intent(getApplicationContext(), GrasimiActivity.class);
-        Food foodObject=  getIntent().getParcelableExtra("food");
+        Food FoodObject=  getIntent().getParcelableExtra("Food");
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    foodObject.setValoareEnergetica(Double.parseDouble(editText.getText().toString()));
-                    intent.putExtra("food", (Parcelable) foodObject);
+                    FoodObject.setValoareEnergetica(Double.parseDouble(editText.getText().toString()));
+                    intent.putExtra("Food", (Parcelable) FoodObject);
                     startActivity(intent);
                     finish();
                 }
