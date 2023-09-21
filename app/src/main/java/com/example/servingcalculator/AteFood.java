@@ -8,8 +8,14 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
+import com.example.servingcalculator.Database.AteFoodsDatabase.LocalDateTimeConverter;
+
+import java.time.LocalDateTime;
 
 @Entity(indices = {@Index(value="nume",unique = true)})
+@TypeConverters({LocalDateTimeConverter.class})
 public class AteFood implements Parcelable {
     @PrimaryKey
     @NonNull
@@ -31,6 +37,10 @@ public class AteFood implements Parcelable {
     private double proteine;
     @ColumnInfo(name = "sare")
     private double sare;
+    @ColumnInfo(name = "cantitate")
+    private double cantitate;
+    @ColumnInfo(name = "data")
+    private LocalDateTime data;
 
     protected AteFood(Parcel in) {
         nume = in.readString();
@@ -42,6 +52,8 @@ public class AteFood implements Parcelable {
         fibre = in.readDouble();
         proteine = in.readDouble();
         sare = in.readDouble();
+        cantitate=in.readDouble();
+        data=LocalDateTime.parse(in.readString());
     }
     @Override
     public void writeToParcel(Parcel dest, int flags) {
@@ -54,6 +66,8 @@ public class AteFood implements Parcelable {
         dest.writeDouble(fibre);
         dest.writeDouble(proteine);
         dest.writeDouble(sare);
+        dest.writeDouble(cantitate);
+        dest.writeString(data.toString());
     }
     @Override
     public int describeContents() {
@@ -83,6 +97,8 @@ public class AteFood implements Parcelable {
         clonedFood.fibre = this.fibre;
         clonedFood.proteine = this.proteine;
         clonedFood.sare = this.sare;
+        clonedFood.cantitate=this.cantitate;
+        clonedFood.data=this.data;
 
         return clonedFood;
     }
@@ -170,6 +186,22 @@ public class AteFood implements Parcelable {
 
     public void setSare(double sare) {
         this.sare = sare;
+    }
+
+    public double getCantitate() {
+        return cantitate;
+    }
+
+    public void setCantitate(double cantitate) {
+        this.cantitate = cantitate;
+    }
+
+    public LocalDateTime getData() {
+        return data;
+    }
+
+    public void setData(LocalDateTime data) {
+        this.data = data;
     }
 
     @Override

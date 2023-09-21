@@ -1,10 +1,13 @@
 package com.example.servingcalculator.ui.ButtonActivities.SelectFromSavedFoods;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,10 +16,13 @@ import androidx.room.Room;
 
 import com.example.servingcalculator.AteFood;
 import com.example.servingcalculator.Database.AppDatabase;
+import com.example.servingcalculator.Database.AteFoodsDatabase.AteFoodsDAO;
+import com.example.servingcalculator.Database.AteFoodsDatabase.AteFoodsDatabase;
 import com.example.servingcalculator.Database.DataAccessObjectFood;
 import com.example.servingcalculator.Food;
 import com.example.servingcalculator.R;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.AdapterViewHolder> {
@@ -73,27 +79,67 @@ public class Adapter extends RecyclerView.Adapter<Adapter.AdapterViewHolder> {
             });
             itemView.setOnClickListener(view -> {
 
-                    new AlertDialog.Builder(itemView.getContext())
-                            .setTitle("Confirmation")
-                            .setMessage("Are you sure you want to eat this food?")
-                            .setPositiveButton("Yes", (dialog, which) -> {
-//                                AppDatabase db = Room.databaseBuilder(
-//                                        itemView.getContext(),
-//                                        AppDatabase.class,
-//                                        "Food-database"
-//                                ).build();
-//                                DataAccessObjectFood FoodDao = db.getData();
-//                                AteFood ateFood=new AteFood();
-//                                ateFood = (AteFood) adapter.foodsList.get(getAdapterPosition()).clone();
-//                                AteFood finalAteFood = ateFood;
-//                                new Thread(() -> {
-//                                    FoodDao.insertAteFood(finalAteFood);
-//                                }).start();
-                            })
-                            .setNegativeButton("No", null)
-                            .show();
+                // Create an EditText widget with numeric input type
+                EditText input = new EditText(itemView.getContext());
+                input.setInputType(InputType.TYPE_CLASS_NUMBER);
+                input.setHint("Enter a number");
 
+                new AlertDialog.Builder(itemView.getContext())
+                        .setTitle("Input Value")
+                        .setMessage("Please enter a number for the food:")
+                        .setView(input)  // Set the EditText as the view of the AlertDialog
+                        .setPositiveButton("Yes", (dialog, which) -> {
+
+                            // Get the numeric value from the EditText
+                            int numberValue;
+                            try {
+                                numberValue = Integer.parseInt(input.getText().toString());
+                            } catch (NumberFormatException e) {
+                                numberValue = 0;  // Default value if user does not enter a valid number
+                            }
+
+                            AteFoodsDatabase db = Room.databaseBuilder(
+                                    itemView.getContext(),
+                                    AteFoodsDatabase.class,
+                                    "AteFoods-database"
+                            ).build();
+
+                            AteFoodsDAO FoodDao = db.getData();
+                            AteFood ateFood=new AteFood(adapter.foodsList.get(getAdapterPosition()).getNume(),adapter.foodsList.get(getAdapterPosition()).getValoareEnergetica(),adapter.foodsList.get(getAdapterPosition()).getGrasimi(),adapter.foodsList.get(getAdapterPosition()).getAcizi(),adapter.foodsList.get(getAdapterPosition()).getGlucide(),adapter.foodsList.get(getAdapterPosition()).getZaharuri(),adapter.foodsList.get(getAdapterPosition()).getFibre(),adapter.foodsList.get(getAdapterPosition()).getProteine(),adapter.foodsList.get(getAdapterPosition()).getSare());
+                            //ateFood = (AteFood) adapter.foodsList.get(getAdapterPosition()).clone();
+                            ateFood.setCantitate(numberValue);
+                            ateFood.setData(LocalDateTime.now());
+
+                            AteFood finalAteFood = ateFood;
+
+                            new AlertDialog.Builder(itemView.getContext())
+                                    .setTitle("Food Info per "+numberValue+"g")
+                                    .setMessage(
+                                            "Name: " + finalAteFood.getNume() + "\n" +
+                                                    "Calorii: " + (numberValue*finalAteFood.getValoareEnergetica())/100 + "\n" +
+                                                    "Grasimi: " + (numberValue*finalAteFood.getGrasimi())/100 + "\n" +
+                                                    "Acizi: " + (numberValue*finalAteFood.getAcizi())/100 + "\n" +
+                                                    "Glucide: " + (numberValue*finalAteFood.getGlucide())/100 + "\n" +
+                                                    "Zaharuri: " + (numberValue*finalAteFood.getZaharuri())/100 + "\n" +
+                                                    "Fibre: " + (numberValue*finalAteFood.getFibre())/100 + "\n" +
+                                                    "Proteine: " + (numberValue*finalAteFood.getProteine())/100 + "\n" +
+                                                    "Sare: " + (numberValue*finalAteFood.getSare())/100
+                                    )
+                                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            new Thread(() -> {
+                                                FoodDao.insertAteFood(finalAteFood);
+                                            }).start();
+                                        }
+                                    })
+                                    .setNegativeButton("No",null)
+                                    .show();
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
             });
+
 
             itemView.findViewById(R.id.deleteBtn).setOnClickListener(view -> {
                 Food selectedFood = adapter.foodsList.get(getAdapterPosition());
