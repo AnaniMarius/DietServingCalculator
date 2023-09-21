@@ -22,13 +22,14 @@ import com.example.servingcalculator.R;
 import com.example.servingcalculator.databinding.FragmentHomeBinding;
 import com.example.servingcalculator.ui.ButtonActivities.AddFood.NumeActivity;
 import com.example.servingcalculator.ui.ButtonActivities.AddFood.ValoareEnergeticaActivity;
+import com.example.servingcalculator.ui.ButtonActivities.SelectFromSavedFoods.RecyclerViewInterface;
 import com.example.servingcalculator.ui.ButtonActivities.SelectFromSavedFoods.SelectFromSavedFoodsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements RecyclerViewInterface {
 
     private FragmentHomeBinding binding;
     private Button addFood;
@@ -87,7 +88,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 new AlertDialog.Builder(getContext())
                         .setTitle("Confirmation")
-                        .setMessage("Are you sure you want to reset the database?")
+                        .setMessage("Are you sure you want to delete this food?")
                         .setPositiveButton("Yes", (dialog, which) -> {
                             new Thread(() -> {
                                 db.getData().deleteAll();
@@ -136,5 +137,10 @@ public class HomeFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    @Override
+    public void onItemClick(int position) {
+
     }
 }

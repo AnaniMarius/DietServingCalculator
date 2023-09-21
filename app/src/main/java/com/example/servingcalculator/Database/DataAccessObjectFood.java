@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.example.servingcalculator.AteFood;
 import com.example.servingcalculator.Food;
 
 import java.util.List;
@@ -19,6 +20,8 @@ public interface DataAccessObjectFood {
     public void insertFoods(Food... Foods);
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public void insertFood(Food Food);
+//    @Insert(onConflict = OnConflictStrategy.REPLACE)
+//    public void insertAteFood(AteFood ateFood);
     @Update
     public void updateFoods(Food... Foods);
     @Delete

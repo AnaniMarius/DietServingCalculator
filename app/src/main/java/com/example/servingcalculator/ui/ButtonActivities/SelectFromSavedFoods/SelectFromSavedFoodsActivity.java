@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class SelectFromSavedFoodsActivity extends AppCompatActivity {
+public class SelectFromSavedFoodsActivity extends AppCompatActivity implements RecyclerViewInterface {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +47,15 @@ public class SelectFromSavedFoodsActivity extends AppCompatActivity {
                 //populate the recyclerview with the fetched list of foods
                 RecyclerView recyclerView = findViewById(R.id.savedFoodsRecyclerView);
                 recyclerView.setLayoutManager(new LinearLayoutManager(this));
-                Adapter adapter=new Adapter(arrayListOfFoods);
+                Adapter adapter=new Adapter(arrayListOfFoods, (RecyclerViewInterface) this);
                 recyclerView.setAdapter(adapter);
             });
 
         }).start();
+    }
+
+    @Override
+    public void onItemClick(int position) {
+
     }
 }

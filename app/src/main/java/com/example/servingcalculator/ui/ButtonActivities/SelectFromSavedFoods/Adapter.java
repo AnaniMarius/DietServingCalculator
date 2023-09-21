@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
+import com.example.servingcalculator.AteFood;
 import com.example.servingcalculator.Database.AppDatabase;
 import com.example.servingcalculator.Database.DataAccessObjectFood;
 import com.example.servingcalculator.Food;
@@ -19,29 +20,30 @@ import com.example.servingcalculator.R;
 import java.util.ArrayList;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.AdapterViewHolder> {
+    private final RecyclerViewInterface recyclerViewInterface;
     ArrayList<Food> foodsList = new ArrayList<>();
-    int selectedPosition = -1;  // Initialize with -1 which means no item is selected
 
-    public Adapter(ArrayList<Food> foodsList) {
+    public Adapter(ArrayList<Food> foodsList, RecyclerViewInterface recyclerViewInterface) {
         this.foodsList = foodsList;
+        this.recyclerViewInterface=recyclerViewInterface;
     }
 
     @NonNull
     @Override
     public AdapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.saved_foods_item_view, parent, false);
-        return new AdapterViewHolder(view, this);
+        return new AdapterViewHolder(view, this, recyclerViewInterface);
     }
 
     @Override
     public void onBindViewHolder(@NonNull AdapterViewHolder holder, int position) {
         holder.foodName.setText(foodsList.get(position).getNume());
 
-        if (position == selectedPosition) {
-            holder.itemView.setBackgroundColor(Color.LTGRAY);  // Highlight the selected item
-        } else {
-            holder.itemView.setBackgroundColor(Color.TRANSPARENT);  // Default appearance
-        }
+//        if (position == selectedPosition) {
+//            holder.itemView.setBackgroundColor(Color.LTGRAY);  // Highlight the selected item
+//        } else {
+//            holder.itemView.setBackgroundColor(Color.TRANSPARENT);  // Default appearance
+//        }
     }
 
     @Override
@@ -53,20 +55,44 @@ public class Adapter extends RecyclerView.Adapter<Adapter.AdapterViewHolder> {
         TextView foodName;
         private final Adapter adapter;
 
-        public AdapterViewHolder(@NonNull View itemView, Adapter adapter) {
+        public AdapterViewHolder(@NonNull View itemView, Adapter adapter, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
             this.adapter = adapter;
             foodName = itemView.findViewById(R.id.SFName);
 
-            itemView.setOnClickListener(view -> {
-                int previousSelectedPosition = adapter.selectedPosition;
-                if (adapter.selectedPosition == getAdapterPosition()) {
-                    adapter.selectedPosition = -1;
-                } else {
-                    adapter.selectedPosition = getAdapterPosition();
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(recyclerViewInterface != null){
+                        int pos=getAdapterPosition();
+                        if(pos!=RecyclerView.NO_POSITION){
+                            recyclerViewInterface.onItemClick(pos);
+                        }
+                    }
                 }
-                adapter.notifyItemChanged(previousSelectedPosition);
-                adapter.notifyItemChanged(adapter.selectedPosition);
+            });
+            itemView.setOnClickListener(view -> {
+
+                    new AlertDialog.Builder(itemView.getContext())
+                            .setTitle("Confirmation")
+                            .setMessage("Are you sure you want to eat this food?")
+                            .setPositiveButton("Yes", (dialog, which) -> {
+//                                AppDatabase db = Room.databaseBuilder(
+//                                        itemView.getContext(),
+//                                        AppDatabase.class,
+//                                        "Food-database"
+//                                ).build();
+//                                DataAccessObjectFood FoodDao = db.getData();
+//                                AteFood ateFood=new AteFood();
+//                                ateFood = (AteFood) adapter.foodsList.get(getAdapterPosition()).clone();
+//                                AteFood finalAteFood = ateFood;
+//                                new Thread(() -> {
+//                                    FoodDao.insertAteFood(finalAteFood);
+//                                }).start();
+                            })
+                            .setNegativeButton("No", null)
+                            .show();
+
             });
 
             itemView.findViewById(R.id.deleteBtn).setOnClickListener(view -> {

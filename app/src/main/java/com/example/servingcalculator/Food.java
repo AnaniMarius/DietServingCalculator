@@ -73,7 +73,7 @@ public class Food implements Parcelable{
         }
     };
     @Override
-    protected Object clone() {
+    public Object clone() {
         Food clonedFood = new Food();
         clonedFood.nume = this.nume;
         clonedFood.valoareEnergetica = this.valoareEnergetica;
