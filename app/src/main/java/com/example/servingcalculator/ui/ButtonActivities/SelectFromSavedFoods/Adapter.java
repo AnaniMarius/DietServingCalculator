@@ -82,11 +82,11 @@ public class Adapter extends RecyclerView.Adapter<Adapter.AdapterViewHolder> {
                 // Create an EditText widget with numeric input type
                 EditText input = new EditText(itemView.getContext());
                 input.setInputType(InputType.TYPE_CLASS_NUMBER);
-                input.setHint("Enter a number");
+                input.setHint("Quantity in grams");
 
                 new AlertDialog.Builder(itemView.getContext())
                         .setTitle("Input Value")
-                        .setMessage("Please enter a number for the food:")
+                        .setMessage("Please enter the quantity of eaten food:")
                         .setView(input)  // Set the EditText as the view of the AlertDialog
                         .setPositiveButton("Yes", (dialog, which) -> {
 
@@ -110,20 +110,29 @@ public class Adapter extends RecyclerView.Adapter<Adapter.AdapterViewHolder> {
                             ateFood.setCantitate(numberValue);
                             ateFood.setData(LocalDateTime.now());
 
+                            ateFood.setValoareEnergetica((numberValue*ateFood.getValoareEnergetica())/100);
+                            ateFood.setGrasimi((numberValue*ateFood.getGrasimi())/100);
+                            ateFood.setAcizi((numberValue*ateFood.getAcizi())/100);
+                            ateFood.setGlucide((numberValue*ateFood.getGlucide())/100);
+                            ateFood.setZaharuri((numberValue*ateFood.getZaharuri())/100);
+                            ateFood.setFibre((numberValue*ateFood.getFibre())/100);
+                            ateFood.setProteine((numberValue*ateFood.getProteine())/100);
+                            ateFood.setSare((numberValue*ateFood.getSare())/100);
+
                             AteFood finalAteFood = ateFood;
 
                             new AlertDialog.Builder(itemView.getContext())
                                     .setTitle("Food Info per "+numberValue+"g")
                                     .setMessage(
                                             "Name: " + finalAteFood.getNume() + "\n" +
-                                                    "Calorii: " + (numberValue*finalAteFood.getValoareEnergetica())/100 + "\n" +
-                                                    "Grasimi: " + (numberValue*finalAteFood.getGrasimi())/100 + "\n" +
-                                                    "Acizi: " + (numberValue*finalAteFood.getAcizi())/100 + "\n" +
-                                                    "Glucide: " + (numberValue*finalAteFood.getGlucide())/100 + "\n" +
-                                                    "Zaharuri: " + (numberValue*finalAteFood.getZaharuri())/100 + "\n" +
-                                                    "Fibre: " + (numberValue*finalAteFood.getFibre())/100 + "\n" +
-                                                    "Proteine: " + (numberValue*finalAteFood.getProteine())/100 + "\n" +
-                                                    "Sare: " + (numberValue*finalAteFood.getSare())/100
+                                                    "Calorii: " + finalAteFood.getValoareEnergetica() + "\n" +
+                                                    "Grasimi: " + finalAteFood.getGrasimi() + "\n" +
+                                                    "Acizi: " + finalAteFood.getAcizi() + "\n" +
+                                                    "Glucide: " + finalAteFood.getGlucide() + "\n" +
+                                                    "Zaharuri: " + finalAteFood.getZaharuri() + "\n" +
+                                                    "Fibre: " + finalAteFood.getFibre() + "\n" +
+                                                    "Proteine: " + finalAteFood.getProteine() + "\n" +
+                                                    "Sare: " + finalAteFood.getSare()
                                     )
                                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                         @Override
