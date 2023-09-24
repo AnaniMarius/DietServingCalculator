@@ -175,7 +175,6 @@ public class HomeFragment extends Fragment implements RecyclerViewInterface {
 
     }
 
-    private View rootView;
     @Override
     public void onResume() {
         super.onResume();
