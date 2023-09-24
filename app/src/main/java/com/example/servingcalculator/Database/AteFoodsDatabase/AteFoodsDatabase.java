@@ -11,7 +11,7 @@ import com.example.servingcalculator.Database.AppDatabase;
 import com.example.servingcalculator.Database.DataAccessObjectFood;
 import com.example.servingcalculator.Food;
 
-@Database(entities = {AteFood.class}, version = 1)
+@Database(entities = {AteFood.class}, version = 3)
 public abstract class AteFoodsDatabase extends RoomDatabase {
     public abstract AteFoodsDAO getData();
     private static AteFoodsDatabase instance;
@@ -20,7 +20,7 @@ public abstract class AteFoodsDatabase extends RoomDatabase {
         if(instance!=null){
             synchronized (AteFoodsDatabase.class) {
                 if (instance == null) {
-                    instance = Room.databaseBuilder(context.getApplicationContext(), AteFoodsDatabase.class, "AteFoods-database").build();
+                    instance = Room.databaseBuilder(context.getApplicationContext(), AteFoodsDatabase.class, "AteFoods-database").fallbackToDestructiveMigration().build();
                 }
             }
         }

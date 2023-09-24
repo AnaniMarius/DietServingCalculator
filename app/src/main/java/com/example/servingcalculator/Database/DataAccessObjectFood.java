@@ -30,6 +30,8 @@ public interface DataAccessObjectFood {
     List<Food> getFoodInfo(String Nume);
     @Delete
     void delete(Food Food);
+    @Query("SELECT * FROM Food WHERE nume == 'Threshold'")
+    Food getThreshold();
     @Query("DELETE FROM Food WHERE nume == :Nume")
     void deleteFood(String Nume);
     @Query("DELETE FROM Food")

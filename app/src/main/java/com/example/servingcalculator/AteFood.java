@@ -14,10 +14,14 @@ import com.example.servingcalculator.Database.AteFoodsDatabase.LocalDateTimeConv
 
 import java.time.LocalDateTime;
 
-@Entity(indices = {@Index(value="nume",unique = true)})
+@Entity(indices = {@Index(value="id",unique = true)})
 @TypeConverters({LocalDateTimeConverter.class})
 public class AteFood implements Parcelable {
-    @PrimaryKey
+
+    @PrimaryKey(autoGenerate = true)
+    @NonNull
+    @ColumnInfo(name = "id")
+    private int id;
     @NonNull
     @ColumnInfo(name = "nume")
     private String nume;
@@ -202,6 +206,14 @@ public class AteFood implements Parcelable {
 
     public void setData(LocalDateTime data) {
         this.data = data;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override

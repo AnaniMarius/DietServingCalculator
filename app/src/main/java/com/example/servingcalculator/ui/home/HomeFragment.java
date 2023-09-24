@@ -57,7 +57,7 @@ public class HomeFragment extends Fragment implements RecyclerViewInterface {
         AppDatabase db = Room.databaseBuilder(getContext(),
                 AppDatabase.class, "Food-database").build();
         AteFoodsDatabase ateFoodsDb = Room.databaseBuilder(getContext(),
-                AteFoodsDatabase.class, "AteFoods-database").build();
+                AteFoodsDatabase.class, "AteFoods-database").fallbackToDestructiveMigration().build();
         HomeViewModel homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
@@ -180,10 +180,14 @@ public class HomeFragment extends Fragment implements RecyclerViewInterface {
     public void onResume() {
         super.onResume();
         TextView meanTxt=root.findViewById(R.id.txtMeanMain);
+        TextView thresholdTxt=root.findViewById(R.id.txtThresholdMain);
         JSONObject foodsMean = new JSONObject();
-        AteFoodsDatabase ateFoodsDB = Room.databaseBuilder(getContext(), AteFoodsDatabase.class, "AteFoods-database").build();
+        JSONObject thresholdJson = new JSONObject();
+        AteFoodsDatabase ateFoodsDB = Room.databaseBuilder(getContext(), AteFoodsDatabase.class, "AteFoods-database").fallbackToDestructiveMigration().build();
+        AppDatabase thresholdDb = Room.databaseBuilder(getContext(), AppDatabase.class, "Food-database").build();
         new Thread(() -> {
             List<AteFood> AteFoodsList = ateFoodsDB.getData().getAll();
+            Food threshold = thresholdDb.getData().getThreshold();
             AteFood ateFoodsMean = new AteFood();
             ateFoodsMean.setData(LocalDateTime.now());
             for (AteFood ateFood : AteFoodsList) {
@@ -209,23 +213,50 @@ public class HomeFragment extends Fragment implements RecyclerViewInterface {
                 foodsMean.put("Proteine", ateFoodsMean.getProteine());
                 foodsMean.put("Sare", ateFoodsMean.getSare());
 
+                if (threshold != null) {
+                    thresholdJson.put("Calorii", threshold.getValoareEnergetica());
+                    thresholdJson.put("Grasimi", threshold.getGrasimi());
+                    thresholdJson.put("Acizi", threshold.getAcizi());
+                    thresholdJson.put("Glucide", threshold.getGlucide());
+                    thresholdJson.put("Zaharuri", threshold.getZaharuri());
+                    thresholdJson.put("Fibre", threshold.getFibre());
+                    thresholdJson.put("Proteine", threshold.getProteine());
+                    thresholdJson.put("Sare", threshold.getSare());
+                }
+                String thresholdText = "";
                 String formattedText = "";
                 try {
-                    formattedText += "Calorii: " + foodsMean.getDouble("Calorii") + "\n";
-                    formattedText += "Grasimi: " + foodsMean.getDouble("Grasimi") + "\n";
-                    formattedText += "Acizi: " + foodsMean.getDouble("Acizi") + "\n";
-                    formattedText += "Glucide: " + foodsMean.getDouble("Glucide") + "\n";
-                    formattedText += "Zaharuri: " + foodsMean.getDouble("Zaharuri") + "\n";
-                    formattedText += "Fibre: " + foodsMean.getDouble("Fibre") + "\n";
-                    formattedText += "Proteine: " + foodsMean.getDouble("Proteine") + "\n";
-                    formattedText += "Sare: " + foodsMean.getDouble("Sare");
+                    formattedText += "Calorii: " + roundToTwoDecimals(foodsMean.getDouble("Calorii")) + "\n";
+                    formattedText += "Grasimi: " + roundToTwoDecimals(foodsMean.getDouble("Grasimi")) + "\n";
+                    formattedText += "Acizi: " + roundToTwoDecimals(foodsMean.getDouble("Acizi")) + "\n";
+                    formattedText += "Glucide: " + roundToTwoDecimals(foodsMean.getDouble("Glucide")) + "\n";
+                    formattedText += "Zaharuri: " + roundToTwoDecimals(foodsMean.getDouble("Zaharuri")) + "\n";
+                    formattedText += "Fibre: " + roundToTwoDecimals(foodsMean.getDouble("Fibre")) + "\n";
+                    formattedText += "Proteine: " + roundToTwoDecimals(foodsMean.getDouble("Proteine")) + "\n";
+                    formattedText += "Sare: " + roundToTwoDecimals(foodsMean.getDouble("Sare"));
+
+                    if (threshold != null) {
+                        thresholdText += "Calorii: " + roundToTwoDecimals(thresholdJson.getDouble("Calorii")) + "\n";
+                        thresholdText += "Grasimi: " + roundToTwoDecimals(thresholdJson.getDouble("Grasimi")) + "\n";
+                        thresholdText += "Acizi: " + roundToTwoDecimals(thresholdJson.getDouble("Acizi")) + "\n";
+                        thresholdText += "Glucide: " + roundToTwoDecimals(thresholdJson.getDouble("Glucide")) + "\n";
+                        thresholdText += "Zaharuri: " + roundToTwoDecimals(thresholdJson.getDouble("Zaharuri")) + "\n";
+                        thresholdText += "Fibre: " + roundToTwoDecimals(thresholdJson.getDouble("Fibre")) + "\n";
+                        thresholdText += "Proteine: " + roundToTwoDecimals(thresholdJson.getDouble("Proteine")) + "\n";
+                        thresholdText += "Sare: " + roundToTwoDecimals(thresholdJson.getDouble("Sare"));
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 meanTxt.setText(formattedText);
+                thresholdTxt.setText(thresholdText);
+
             } catch (JSONException e) {
                 throw new RuntimeException(e);
             }
         }).start();
+    }
+    public double roundToTwoDecimals(double value) {
+        return (double) Math.round(value * 100) / 100;
     }
 }

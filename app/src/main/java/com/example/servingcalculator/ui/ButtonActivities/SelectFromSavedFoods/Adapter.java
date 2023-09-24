@@ -102,7 +102,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.AdapterViewHolder> {
                                     itemView.getContext(),
                                     AteFoodsDatabase.class,
                                     "AteFoods-database"
-                            ).build();
+                            ).fallbackToDestructiveMigration().build();
 
                             AteFoodsDAO FoodDao = db.getData();
                             AteFood ateFood=new AteFood(adapter.foodsList.get(getAdapterPosition()).getNume(),adapter.foodsList.get(getAdapterPosition()).getValoareEnergetica(),adapter.foodsList.get(getAdapterPosition()).getGrasimi(),adapter.foodsList.get(getAdapterPosition()).getAcizi(),adapter.foodsList.get(getAdapterPosition()).getGlucide(),adapter.foodsList.get(getAdapterPosition()).getZaharuri(),adapter.foodsList.get(getAdapterPosition()).getFibre(),adapter.foodsList.get(getAdapterPosition()).getProteine(),adapter.foodsList.get(getAdapterPosition()).getSare());
@@ -110,14 +110,14 @@ public class Adapter extends RecyclerView.Adapter<Adapter.AdapterViewHolder> {
                             ateFood.setCantitate(numberValue);
                             ateFood.setData(LocalDateTime.now());
 
-                            ateFood.setValoareEnergetica((numberValue*ateFood.getValoareEnergetica())/100);
-                            ateFood.setGrasimi((numberValue*ateFood.getGrasimi())/100);
-                            ateFood.setAcizi((numberValue*ateFood.getAcizi())/100);
-                            ateFood.setGlucide((numberValue*ateFood.getGlucide())/100);
-                            ateFood.setZaharuri((numberValue*ateFood.getZaharuri())/100);
-                            ateFood.setFibre((numberValue*ateFood.getFibre())/100);
-                            ateFood.setProteine((numberValue*ateFood.getProteine())/100);
-                            ateFood.setSare((numberValue*ateFood.getSare())/100);
+                            ateFood.setValoareEnergetica(roundToTwoDecimals((numberValue*ateFood.getValoareEnergetica())/100));
+                            ateFood.setGrasimi(roundToTwoDecimals((numberValue*ateFood.getGrasimi())/100));
+                            ateFood.setAcizi(roundToTwoDecimals((numberValue*ateFood.getAcizi())/100));
+                            ateFood.setGlucide(roundToTwoDecimals((numberValue*ateFood.getGlucide())/100));
+                            ateFood.setZaharuri(roundToTwoDecimals((numberValue*ateFood.getZaharuri())/100));
+                            ateFood.setFibre(roundToTwoDecimals((numberValue*ateFood.getFibre())/100));
+                            ateFood.setProteine(roundToTwoDecimals((numberValue*ateFood.getProteine())/100));
+                            ateFood.setSare(roundToTwoDecimals((numberValue*ateFood.getSare())/100));
 
                             AteFood finalAteFood = ateFood;
 
@@ -195,5 +195,8 @@ public class Adapter extends RecyclerView.Adapter<Adapter.AdapterViewHolder> {
                     .setPositiveButton("Close", null)
                     .show();
         }
+    }
+    public static double roundToTwoDecimals(double value) {
+        return (double) Math.round(value * 100) / 100;
     }
 }
