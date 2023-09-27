@@ -64,6 +64,25 @@ public class DashboardFragment extends Fragment {
         new Thread(() -> {
             List<AteFood> AteFoodsList = ateFoodsDB.getData().getAll();
             Food threshold = thresholdDb.getData().getThreshold();
+            try {
+                if (threshold != null) {
+                    thresholdJson.put("Calorii", threshold.getValoareEnergetica());
+                    thresholdJson.put("Grasimi", threshold.getGrasimi());
+                    thresholdJson.put("Acizi", threshold.getAcizi());
+                    thresholdJson.put("Glucide", threshold.getGlucide());
+                    thresholdJson.put("Zaharuri", threshold.getZaharuri());
+                    thresholdJson.put("Fibre", threshold.getFibre());
+                    thresholdJson.put("Proteine", threshold.getProteine());
+                    thresholdJson.put("Sare", threshold.getSare());
+                }
+                String thresholdText = (threshold != null) ? createFormattedText(thresholdJson) : "";
+                meanTxt.post(() -> {
+                    thresholdTxt.setText(thresholdText);
+                });
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+
             AteFood ateFoodsMean = new AteFood();
 
             Set<LocalDate> uniqueDates = new HashSet<>(); //keep track of unique dates
@@ -105,24 +124,11 @@ public class DashboardFragment extends Fragment {
                     foodsMean.put("Proteine", ateFoodsMean.getProteine());
                     foodsMean.put("Sare", ateFoodsMean.getSare());
 
-                    if (threshold != null) {
-                        thresholdJson.put("Calorii", threshold.getValoareEnergetica());
-                        thresholdJson.put("Grasimi", threshold.getGrasimi());
-                        thresholdJson.put("Acizi", threshold.getAcizi());
-                        thresholdJson.put("Glucide", threshold.getGlucide());
-                        thresholdJson.put("Zaharuri", threshold.getZaharuri());
-                        thresholdJson.put("Fibre", threshold.getFibre());
-                        thresholdJson.put("Proteine", threshold.getProteine());
-                        thresholdJson.put("Sare", threshold.getSare());
-                    }
-
                     String formattedText = createFormattedText(foodsMean);
-                    String thresholdText = (threshold != null) ? createFormattedText(thresholdJson) : "";
 
                     //update UI elements
                     meanTxt.post(() -> {
                         meanTxt.setText(formattedText);
-                        thresholdTxt.setText(thresholdText);
                     });
 
                 } catch (JSONException e) {

@@ -1,12 +1,14 @@
 package com.example.servingcalculator.ui.ButtonActivities.SelectFromSavedFoods;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -82,13 +84,19 @@ public class Adapter extends RecyclerView.Adapter<Adapter.AdapterViewHolder> {
                 // Create an EditText widget with numeric input type
                 EditText input = new EditText(itemView.getContext());
                 input.setInputType(InputType.TYPE_CLASS_NUMBER);
-                input.setHint("Quantity in grams");
+                input.setHint("Gramajul consumat al alimentului");
+                //request focus to the EditText widget
+                input.requestFocus();
+
+                //automatically show the keyboard
+                InputMethodManager imm = (InputMethodManager) itemView.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
 
                 new AlertDialog.Builder(itemView.getContext())
-                        .setTitle("Input Value")
-                        .setMessage("Please enter the quantity of eaten food:")
+                        //.setTitle("Input Value")
+                        .setMessage("Introdu gramajul pe care vrei să il consumi:")
                         .setView(input)  // Set the EditText as the view of the AlertDialog
-                        .setPositiveButton("Yes", (dialog, which) -> {
+                        .setPositiveButton("Da", (dialog, which) -> {
 
                             // Get the numeric value from the EditText
                             int numberValue;
@@ -122,7 +130,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.AdapterViewHolder> {
                             AteFood finalAteFood = ateFood;
 
                             new AlertDialog.Builder(itemView.getContext())
-                                    .setTitle("Food Info per "+numberValue+"g")
+                                    .setTitle("Info aliment per "+numberValue+" g")
                                     .setMessage(
                                             "Name: " + finalAteFood.getNume() + "\n" +
                                                     "Calorii: " + finalAteFood.getValoareEnergetica() + "\n" +
@@ -134,7 +142,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.AdapterViewHolder> {
                                                     "Proteine: " + finalAteFood.getProteine() + "\n" +
                                                     "Sare: " + finalAteFood.getSare()
                                     )
-                                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    .setPositiveButton("Da", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             new Thread(() -> {
@@ -142,10 +150,10 @@ public class Adapter extends RecyclerView.Adapter<Adapter.AdapterViewHolder> {
                                             }).start();
                                         }
                                     })
-                                    .setNegativeButton("No",null)
+                                    .setNegativeButton("Nu",null)
                                     .show();
                         })
-                        .setNegativeButton("No", null)
+                        .setNegativeButton("Nu", null)
                         .show();
             });
 
@@ -153,9 +161,9 @@ public class Adapter extends RecyclerView.Adapter<Adapter.AdapterViewHolder> {
             itemView.findViewById(R.id.deleteBtn).setOnClickListener(view -> {
                 Food selectedFood = adapter.foodsList.get(getAdapterPosition());
                 new AlertDialog.Builder(itemView.getContext())
-                        .setTitle("Confirmation")
-                        .setMessage("Are you sure you want to delete this food?")
-                        .setPositiveButton("Yes", (dialog, which) -> {
+                        .setTitle("Confirmare")
+                        .setMessage("Ești sigur că vrei să ștergi acest aliment?")
+                        .setPositiveButton("Da", (dialog, which) -> {
                             AppDatabase db = Room.databaseBuilder(
                                     itemView.getContext(),
                                     AppDatabase.class,
@@ -168,7 +176,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.AdapterViewHolder> {
                             adapter.foodsList.remove(getAdapterPosition());
                             adapter.notifyItemRemoved(getAdapterPosition());
                         })
-                        .setNegativeButton("No", null)
+                        .setNegativeButton("Nu", null)
                         .show();
             });
 

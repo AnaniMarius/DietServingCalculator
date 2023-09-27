@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">Serving calculator</string>
-    <string name="title_home">Today</string>
-    <string name="title_dashboard">Week Average</string>
-    <string name="title_notifications">Month Average</string>
+    <string name="app_name">Contor Macronutrienti</string>
+    <string name="title_home">Astăzi</string>
+    <string name="title_dashboard">Media săptămânii</string>
+    <string name="title_notifications">Media lunii</string>
     <string name="title_activity_select_from_saved_foods">SelectFromSavedFoodsActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>

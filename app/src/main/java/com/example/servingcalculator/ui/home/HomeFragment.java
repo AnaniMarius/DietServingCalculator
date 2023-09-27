@@ -67,7 +67,6 @@ public class HomeFragment extends Fragment implements RecyclerViewInterface {
         //homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
         addFood=root.findViewById(R.id.addFoodBtn);
-        addSnack=root.findViewById(R.id.addSnackBtn);
         addThreshold=root.findViewById(R.id.addThresholdBtn);
         resetDatabase=root.findViewById(R.id.resetDbBtn);
         resetEatenFoodsDatabase=root.findViewById(R.id.resetAteDB);
@@ -80,12 +79,6 @@ public class HomeFragment extends Fragment implements RecyclerViewInterface {
                 addFoodActivity.putExtra("Food", (Parcelable) FoodObject);
                 startActivity(addFoodActivity);
 //                createPopupWindow();
-            }
-        });
-        addSnack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
             }
         });
         addThreshold.setOnClickListener(new View.OnClickListener() {
@@ -103,14 +96,14 @@ public class HomeFragment extends Fragment implements RecyclerViewInterface {
             @Override
             public void onClick(View view) {
                 new AlertDialog.Builder(getContext())
-                        .setTitle("Confirmation")
-                        .setMessage("Are you sure you want to delete the saved food?")
-                        .setPositiveButton("Yes", (dialog, which) -> {
+                        .setTitle("Confirmare!")
+                        .setMessage("Ești sigur că vrei să ștergi toate alimentele salvate în listă?")
+                        .setPositiveButton("Da", (dialog, which) -> {
                             new Thread(() -> {
                                 db.getData().deleteAll();
                             }).start();
                         })
-                        .setNegativeButton("No", null)
+                        .setNegativeButton("Nu", null)
                         .show();
             }
         });
@@ -118,14 +111,14 @@ public class HomeFragment extends Fragment implements RecyclerViewInterface {
             @Override
             public void onClick(View view) {
                 new AlertDialog.Builder(getContext())
-                        .setTitle("Confirmation")
-                        .setMessage("Are you sure you want to delete all eaten foods?")
-                        .setPositiveButton("Yes", (dialog, which) -> {
+                        .setTitle("Confirmare")
+                        .setMessage("Ești sigur că vrei să ștergi toate alimentele mâncate?")
+                        .setPositiveButton("Da", (dialog, which) -> {
                             new Thread(() -> {
                                 ateFoodsDb.getData().deleteAll();
                             }).start();
                         })
-                        .setNegativeButton("No", null)
+                        .setNegativeButton("Nu", null)
                         .show();
             }
         });

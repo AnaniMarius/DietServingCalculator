@@ -25,7 +25,7 @@
         android:layout_width="152dp"
         android:layout_height="208dp"
         android:layout_marginTop="272dp"
-        android:text="TextView"
+        android:text="Încă nu a fost introdus prag de valori"
         android:textColor="@color/white"
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -112,11 +112,24 @@
         android:layout_width="152dp"
         android:layout_height="208dp"
         android:layout_marginTop="272dp"
-        android:text="TextView"
+        android:text="Încă nu au fost alimente consumate"
         android:textColor="@color/white"
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.061"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Media aritmetică ale ZILELOR CONTORIZATE din săptamâna curentă"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        android:gravity="center"
+        app:layout_constraintBottom_toTopOf="@+id/weekDivider"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
